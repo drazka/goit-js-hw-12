@@ -7,10 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const q = document.getElementById('searchQuery').value;
         const apiKey = '46413447-a6948cf821c6d061f8e7d4db1';
-        const perPage = 18;
+        const perPage = 40;
         let currentPage = 1;
         let totalHits = 0;
         let loadedImages = 0;
+
+        const galleryDiv = document.getElementById('gallery');
+        galleryDiv.innerHTML = '';
+        currentPage = 1;
 
         async function fetchImages(query, page) {
             const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${perPage}&page=${page}`;
@@ -25,8 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function displayImages(data) {
-            const galleryDiv = document.getElementById('gallery');
-
             if (data.hits.length === 0) {
                 iziToast.error({
                     message: 'Sorry, there are no images matching your search query. Please try again!',
@@ -97,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const data = await fetchImages(q, currentPage);
         if (data) {
-            totalHits = data.totalHits; 
+            totalHits = data.totalHits;
             displayImages(data);
         }
 
